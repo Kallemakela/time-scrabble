@@ -1,1 +1,1 @@
-# Scrabble timer
+# Time Scrabble

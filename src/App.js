@@ -45,8 +45,10 @@ export class App extends Component {
   }
 
   loadGame = () => {
-    const playerPoints = JSON.parse(localStorage.getItem('playerPoints'))
-    const turnCounter = Number(localStorage.getItem('turnCounter'));
+    const playerPointsStr = localStorage.getItem('playerPoints')
+    const turnCounterStr = localStorage.getItem('turnCounter')    
+    const playerPoints = playerPointsStr !== null ? JSON.parse(playerPointsStr) : {}
+    const turnCounter = Number(turnCounterStr) || 0
     this.setState({
       playerPoints,
       turnCounter,
@@ -87,6 +89,7 @@ export class App extends Component {
       playerPoints: newPlayerPoints,
       turnCounter: turnCounter + 1,
       pointEntry: '',
+      paused: true,
     }, () => {
       this.saveGame()
       pauseFn()
@@ -176,7 +179,6 @@ export class App extends Component {
                         <div className='pause-btn-cont'>
                           <button onClick={() => {
                             pause()
-                            this.setState({ time: getTime() })
                           }}>Pause</button>
                         </div>
                       )}

@@ -26,7 +26,10 @@ export class App extends Component {
     e.preventDefault()
     const { addPlayerEntry, playerPoints } = this.state
     const newPlayer = { [addPlayerEntry]: [] }
-    this.setState({ playerPoints: {...playerPoints, ...newPlayer } })
+    this.setState({
+      playerPoints: {...playerPoints, ...newPlayer },
+      addPlayerEntry: '',
+    })
   }
 
   toggleConfirm = () => {
@@ -222,8 +225,8 @@ export class App extends Component {
                 {playerPoints[player].reduce((s, x) => s+x, 0)}
               </div>
               <div className='player-point-cont'>
-                {playerPoints[player].reverse().map(n => (
-                  <div className='point'>
+                {playerPoints[player].reverse().map((n, i) => (
+                  <div className='point' key={`point-${player}-${i}`}>
                     {n}
                   </div>
                 ))}

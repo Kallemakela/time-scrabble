@@ -36,6 +36,15 @@ export class App extends Component {
       this.setState(prevState => ({ showConfirm: !prevState.showConfirm }))
   }
 
+  // out of place reverse
+  reverseArray = (arr) => {
+    let newArray = []
+    for (let i = arr.length - 1; i >= 0; i--) {
+      newArray.push(arr[i])
+    }
+    return newArray
+  }
+
   linearScoreFactor = () => {
     const timeSpent = INIT_TIME - this.state.getTimeFn()
     return 1 - (1 / INIT_TIME) * timeSpent
@@ -225,7 +234,7 @@ export class App extends Component {
                 {playerPoints[player].reduce((s, x) => s+x, 0)}
               </div>
               <div className='player-point-cont'>
-                {playerPoints[player].reverse().map((n, i) => (
+                {this.reverseArray(playerPoints[player]).map((n, i) => (
                   <div className='point' key={`point-${player}-${i}`}>
                     {n}
                   </div>

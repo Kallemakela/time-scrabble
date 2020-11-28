@@ -28,6 +28,9 @@ export class App extends Component {
     if (addPlayerEntry === '') {
       return alert('Enter a name')
     }
+    if (Object.keys(playerEntries).includes(addPlayerEntry)) {
+      return alert('Name taken')
+    }
     const newPlayer = { [addPlayerEntry]: [] }
     this.setState({
       playerEntries: {...playerEntries, ...newPlayer },

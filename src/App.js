@@ -25,6 +25,9 @@ export class App extends Component {
   addPlayer = (e) => {
     e.preventDefault()
     const { addPlayerEntry, playerEntries } = this.state
+    if (addPlayerEntry === '') {
+      return alert('Enter a name')
+    }
     const newPlayer = { [addPlayerEntry]: [] }
     this.setState({
       playerEntries: {...playerEntries, ...newPlayer },

@@ -15,7 +15,7 @@ export class App extends Component {
     showConfirm: false,
     timerFunctionsSet: false,
     turnCounter: 0,
-    playerPoints: {}
+    playerEntries: {}
   }
 
   handleChange = (e) => {
@@ -24,10 +24,10 @@ export class App extends Component {
 
   addPlayer = (e) => {
     e.preventDefault()
-    const { addPlayerEntry, playerPoints } = this.state
+    const { addPlayerEntry, playerEntries } = this.state
     const newPlayer = { [addPlayerEntry]: [] }
     this.setState({
-      playerPoints: {...playerPoints, ...newPlayer },
+      playerEntries: {...playerEntries, ...newPlayer },
       addPlayerEntry: '',
     })
   }
@@ -51,54 +51,60 @@ export class App extends Component {
   }
 
   saveGame = () => {
-    const { playerPoints, turnCounter } = this.state
-    localStorage.setItem('playerPoints', JSON.stringify(playerPoints))
+    const { playerEntries, turnCounter } = this.state
+    localStorage.setItem('playerEntries', JSON.stringify(playerEntries))
     localStorage.setItem('turnCounter', turnCounter)
   }
 
   loadGame = () => {
-    const playerPointsStr = localStorage.getItem('playerPoints')
+    const playerEntriesStr = localStorage.getItem('playerEntries')
     const turnCounterStr = localStorage.getItem('turnCounter')    
-    const playerPoints = playerPointsStr !== null ? JSON.parse(playerPointsStr) : {}
+    const playerEntries = playerEntriesStr !== null ? JSON.parse(playerEntriesStr) : {}
     const turnCounter = Number(turnCounterStr) || 0
     this.setState({
-      playerPoints,
+      playerEntries,
       turnCounter,
     })
   }
 
   clearPoints = () => {
     this.setState({
-      playerPoints: {},
+      playerEntries: {},
       turnCounter: 0,
       showConfirm: false,
     })
   }
 
   currentPlayer = () => {
-    const { playerPoints, turnCounter } = this.state
-    const playerIndex = turnCounter % Object.keys(playerPoints).length
-    return Object.keys(playerPoints)[playerIndex]
+    const { playerEntries, turnCounter } = this.state
+    const playerIndex = turnCounter % Object.keys(playerEntries).length
+    return Object.keys(playerEntries)[playerIndex]
   }
 
   pointEntry = (e) => {
     e.preventDefault()
-    const { playerPoints, turnCounter, pointEntry, pauseFn, resetFn, getTimeFn } = this.state
+    const { playerEntries, turnCounter, pointEntry, pauseFn, resetFn, getTimeFn } = this.state
     if (isNaN(pointEntry)) {
       return alert('Point entry must be a number')
     }
-    if (Object.keys(playerPoints).length === 0) {
+    if (Object.keys(playerEntries).length === 0) {
       return alert('Add a player to play the game')
     }
     if (getTimeFn() === INIT_TIME) {
       return alert('Start the timer')
     }
     const player = this.currentPlayer()
-    const newPlayerPoints = {...playerPoints}
-    const newPoint = Math.round(this.linearScoreFactor() * Number(pointEntry))
-    newPlayerPoints[player] = [...playerPoints[player], newPoint]
+    const newplayerEntries = {...playerEntries}
+    const original = Number(pointEntry)
+    const timeSpent = INIT_TIME - this.state.getTimeFn()
+    const discounted = Math.round(this.linearScoreFactor() * Number(original))
+    newplayerEntries[player] = [...playerEntries[player], {
+      discounted,
+      original,
+      timeSpent,
+    }]
     this.setState({
-      playerPoints: newPlayerPoints,
+      playerEntries: newplayerEntries,
       turnCounter: turnCounter + 1,
       pointEntry: '',
       paused: true,
@@ -133,7 +139,7 @@ export class App extends Component {
 
   render() {
     const {
-      addPlayerEntry, paused, initTime, pointEntry, playerPoints, showConfirm
+      addPlayerEntry, paused, initTime, pointEntry, playerEntries, showConfirm
     } = this.state
     return (
       <div className='app'>
@@ -225,18 +231,18 @@ export class App extends Component {
         </div>
 
         <div className='score-cont'>
-          {Object.keys(playerPoints).map(player => (
+          {Object.keys(playerEntries).map(player => (
             <div className='player-score-cont' key={player}>
               <div className='player-name'>
                 {player}
               </div>
               <div className='player-total-cont'>
-                {playerPoints[player].reduce((s, x) => s+x, 0)}
+                {playerEntries[player].map(entry => entry.discounted).reduce((s, x) => s+x, 0)}
               </div>
               <div className='player-point-cont'>
-                {this.reverseArray(playerPoints[player]).map((n, i) => (
+                {this.reverseArray(playerEntries[player]).map((entry, i) => (
                   <div className='point' key={`point-${player}-${i}`}>
-                    {n}
+                    {entry.discounted}
                   </div>
                 ))}
               </div>

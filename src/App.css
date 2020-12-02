@@ -4,7 +4,6 @@
 
 input {
   border-style: solid;
-  
 }
 
 .add-player-form-cont {
@@ -63,4 +62,5 @@ input {
 
 .new-game-cont button {
   margin: 1em;
+  border-style: solid;
 }

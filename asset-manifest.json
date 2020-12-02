@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/time-scrabble/static/css/main.36dac720.chunk.css",
+    "main.css": "/time-scrabble/static/css/main.47422f6f.chunk.css",
     "main.js": "/time-scrabble/static/js/main.60e6cef0.chunk.js",
     "main.js.map": "/time-scrabble/static/js/main.60e6cef0.chunk.js.map",
     "runtime-main.js": "/time-scrabble/static/js/runtime-main.a23e9ade.js",
@@ -10,13 +10,13 @@
     "static/js/3.8cdacfe4.chunk.js": "/time-scrabble/static/js/3.8cdacfe4.chunk.js",
     "static/js/3.8cdacfe4.chunk.js.map": "/time-scrabble/static/js/3.8cdacfe4.chunk.js.map",
     "index.html": "/time-scrabble/index.html",
-    "static/css/main.36dac720.chunk.css.map": "/time-scrabble/static/css/main.36dac720.chunk.css.map",
+    "static/css/main.47422f6f.chunk.css.map": "/time-scrabble/static/css/main.47422f6f.chunk.css.map",
     "static/js/2.2cb16625.chunk.js.LICENSE.txt": "/time-scrabble/static/js/2.2cb16625.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a23e9ade.js",
     "static/js/2.2cb16625.chunk.js",
-    "static/css/main.36dac720.chunk.css",
+    "static/css/main.47422f6f.chunk.css",
     "static/js/main.60e6cef0.chunk.js"
   ]
 }
